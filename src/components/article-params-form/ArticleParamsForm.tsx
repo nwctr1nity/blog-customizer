@@ -74,8 +74,8 @@ export const ArticleParamsForm = ({ articleState, onApply }: Props) => {
 	};
 
 	const handleReset = () => {
-		setFormState(articleState);
-		onApply(articleState);
+		setFormState(defaultArticleState);
+		onApply(defaultArticleState);
 		closeMenu();
 	};
 
