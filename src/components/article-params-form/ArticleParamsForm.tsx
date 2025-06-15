@@ -24,26 +24,26 @@ type Props = {
 };
 
 export const ArticleParamsForm = ({ articleState, onApply }: Props) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const formRef = useRef<HTMLElement>(null);
 
 	const [formState, setFormState] = useState(articleState);
 
-	const toggleOpen = () => setIsOpen((prev) => !prev);
-	const close = () => setIsOpen(false);
+	const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+	const closeMenu = () => setIsMenuOpen(false);
 
 	useEffect(() => {
-		if (!isOpen) return;
+		if (!isMenuOpen) return;
 
 		const handleClickOutside = (event: MouseEvent) => {
 			if (formRef.current && !formRef.current.contains(event.target as Node)) {
-				close();
+				closeMenu();
 			}
 		};
 
 		const handleEsc = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
-				close();
+				closeMenu();
 			}
 		};
 
@@ -54,11 +54,11 @@ export const ArticleParamsForm = ({ articleState, onApply }: Props) => {
 			document.removeEventListener('mousedown', handleClickOutside);
 			document.removeEventListener('keydown', handleEsc);
 		};
-	}, [isOpen]);
+	}, [isMenuOpen]);
 
 	useEffect(() => {
-		if (isOpen) setFormState(articleState);
-	}, [isOpen, articleState]);
+		if (isMenuOpen) setFormState(articleState);
+	}, [isMenuOpen, articleState]);
 
 	const handleChange = (key: string, value: any) => {
 		setFormState((prev) => ({
@@ -70,22 +70,22 @@ export const ArticleParamsForm = ({ articleState, onApply }: Props) => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		onApply(formState);
-		close();
+		closeMenu();
 	};
 
 	const handleReset = () => {
 		setFormState(articleState);
 		onApply(articleState);
-		close();
+		closeMenu();
 	};
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={toggleOpen} />
+			<ArrowButton isOpen={isMenuOpen} onClick={toggleMenu} />
 			<aside
 				ref={formRef}
 				className={clsx(styles.container, {
-					[styles.container_open]: isOpen,
+					[styles.container_open]: isMenuOpen,
 				})}>
 				<form
 					className={styles.form}
